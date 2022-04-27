@@ -1,46 +1,69 @@
+import {
+  Accordion,
+  AccordionButton,
+  AccordionIcon,
+  AccordionItem,
+  AccordionPanel,
+  Box,
+  Heading,
+  Text,
+} from "@chakra-ui/react";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { courseActions } from "../store/reducers/course";
 
 export default function Sidebar() {
   const course = useAppSelector((state) => ({
     modules: state.courseReducer.modules,
+    activeModule: state.courseReducer.activeModule,
     activeLesson: state.courseReducer.activeLesson,
   }));
   const dispatch = useAppDispatch();
 
   return (
-    <aside>
+    <Accordion
+      defaultIndex={[
+        course.modules.findIndex(
+          (module) => module.id === course.activeModule.id
+        ),
+      ]}
+      allowMultiple
+      as="aside"
+      w="25%"
+      h="100%"
+    >
       {course.modules.map((module) => (
-        <div key={module.id}>
-          <strong
-            style={{
-              paddingBlock: "16px",
-              paddingLeft: "8px",
-              display: "block",
-              backgroundColor: "#0066ff",
-            }}
+        <AccordionItem key={module.id} bgColor="#181818" color="#fff">
+          <AccordionButton
+            p={6}
+            borderTop="1px solid #bbb"
+            _focus={{ outline: "none" }}
           >
-            {module.title}
-          </strong>
-          <ul style={{ listStyle: "none" }}>
+            <Heading size="md">{module.title}</Heading>
+            <AccordionIcon ml="auto" />
+          </AccordionButton>
+          <Box as="ul" listStyleType="none">
             {module.lessons.map((lesson) => (
-              <li key={lesson.id} style={{ marginBlock: "16px" }}>
-                <span>{lesson.title}</span>
-                <button
-                  onClick={() =>
-                    dispatch(courseActions.toggleLesson({ module, lesson }))
-                  }
-                  disabled={course.activeLesson.title === lesson.title}
-                >
-                  {course.activeLesson.title === lesson.title
-                    ? "Selected"
-                    : "Select"}
-                </button>
-              </li>
+              <AccordionPanel
+                as="li"
+                key={lesson.id}
+                cursor="pointer"
+                bgColor={
+                  course.activeLesson.title === lesson.title
+                    ? "#181818"
+                    : "#000000"
+                }
+                _hover={{ bgColor: "#181818" }}
+                color="#fff"
+                onClick={() =>
+                  dispatch(courseActions.toggleLesson({ module, lesson }))
+                }
+              >
+                <Text>{lesson.title}</Text>
+              </AccordionPanel>
             ))}
-          </ul>
-        </div>
+          </Box>
+        </AccordionItem>
       ))}
-    </aside>
+    </Accordion>
   );
 }
