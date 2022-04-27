@@ -58,6 +58,7 @@ export default function Sidebar() {
                 onClick={() =>
                   dispatch(courseActions.toggleLesson({ module, lesson }))
                 }
+                p={4}
               >
                 <Text>{lesson.title}</Text>
               </AccordionPanel>
