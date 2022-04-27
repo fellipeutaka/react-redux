@@ -21,7 +21,7 @@ export default function Sidebar() {
 
   return (
     <Accordion
-      defaultIndex={[
+      index={[
         course.modules.findIndex(
           (module) => module.id === course.activeModule.id
         ),
