@@ -6,13 +6,13 @@ import Video from "../components/Video";
 
 export default function Home() {
   return (
-    <Flex flexDir="column">
+    <>
       <Header />
-      <Flex flexDir={["column", "row"]}>
+      <Flex as="main" flexDir={["column", "row"]}>
         <Video />
         <Sidebar />
       </Flex>
       <Footer />
-    </Flex>
+    </>
   );
 }
