@@ -31,13 +31,14 @@ export default function Sidebar() {
       w="25%"
       h="100%"
     >
-      {course.modules.map((module) => (
-        <AccordionItem key={module.id} bgColor="#181818" color="#fff">
-          <AccordionButton
-            p={6}
-            borderTop="1px solid #bbb"
-            _focus={{ outline: "none" }}
-          >
+      {course.modules.map((module, index) => (
+        <AccordionItem
+          key={module.id}
+          bgColor="#181818"
+          color="#fff"
+          borderTopWidth={index === 0 ? "0px" : "1px"}
+        >
+          <AccordionButton p={6} _focus={{ outline: "none" }}>
             <Heading size="md">{module.title}</Heading>
             <AccordionIcon ml="auto" />
           </AccordionButton>
