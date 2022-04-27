@@ -8,7 +8,7 @@ export default function Home() {
   return (
     <Flex flexDir="column">
       <Header />
-      <Flex>
+      <Flex flexDir={["column", "row"]}>
         <Video />
         <Sidebar />
       </Flex>

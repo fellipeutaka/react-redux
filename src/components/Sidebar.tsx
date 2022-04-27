@@ -28,7 +28,7 @@ export default function Sidebar() {
       ]}
       allowMultiple
       as="aside"
-      w="25%"
+      w={["100%", "25%"]}
       h="100%"
     >
       {course.modules.map((module, index) => (

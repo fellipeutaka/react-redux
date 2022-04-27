@@ -6,7 +6,7 @@ export default function Footer() {
       as="footer"
       justifyContent="center"
       alignItems="center"
-      mt={24}
+      mt={20}
       h={24}
       bgColor="#1c1d1f"
     >

@@ -21,7 +21,7 @@ export default function Video() {
   }, [course.modules]);
 
   return (
-    <Box w="75%">
+    <Box w={["100%", "75%"]}>
       <AspectRatio ratio={16 / 9}>
         <ReactPlayer
           width="100%"
@@ -43,7 +43,7 @@ export default function Video() {
           }
         />
       </AspectRatio>
-      <Box ml={6} mt={4}>
+      <Box ml={6} my={4}>
         <Heading as="h2">About this course</Heading>
         <Text>Learn React and your ecosystem.</Text>
         <Text>
