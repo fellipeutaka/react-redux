@@ -30,11 +30,11 @@ export default function Sidebar() {
       as="aside"
       w={["100%", "25%"]}
       h="100%"
-      position="fixed"
+      position={["static", "fixed"]}
       right={0}
       top={0}
       zIndex={99}
-      overflowY="scroll"
+      overflowY={["visible", "scroll"]}
     >
       {course.modules.map((module, index) => (
         <AccordionItem
