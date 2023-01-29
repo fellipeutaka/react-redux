@@ -1,6 +1,6 @@
 import { Flex, Link, Text } from "@chakra-ui/react";
 
-export default function Footer() {
+export function Footer() {
   return (
     <Flex
       as="footer"

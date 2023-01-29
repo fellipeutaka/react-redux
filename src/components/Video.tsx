@@ -1,10 +1,13 @@
 import { AspectRatio, Box, Heading, Text } from "@chakra-ui/react";
 import { useMemo } from "react";
-import ReactPlayer from "react-player/youtube";
+import dynamic from "next/dynamic";
+const ReactPlayer = dynamic(() => import("react-player/youtube"), {
+  ssr: false,
+});
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { courseActions } from "../store/reducers/course";
 
-export default function Video() {
+export function Video() {
   const course = useAppSelector((state) => ({
     activeModule: state.courseReducer.activeModule,
     activeLesson: state.courseReducer.activeLesson,
@@ -31,6 +34,7 @@ export default function Video() {
           config={{
             playerVars: {
               autoplay: 1,
+              start: 0,
             },
           }}
           onEnded={() =>

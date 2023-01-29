@@ -2,7 +2,7 @@ import { Flex, Heading } from "@chakra-ui/react";
 import { useEffect } from "react";
 import { useAppSelector } from "../hooks/redux";
 
-export default function Header() {
+export function Header() {
   const course = useAppSelector((state) => ({
     activeModule: state.courseReducer.activeModule,
   }));

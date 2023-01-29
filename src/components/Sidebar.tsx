@@ -11,7 +11,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { courseActions } from "../store/reducers/course";
 
-export default function Sidebar() {
+export function Sidebar() {
   const course = useAppSelector((state) => ({
     modules: state.courseReducer.modules,
     activeModule: state.courseReducer.activeModule,
