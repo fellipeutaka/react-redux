@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Course } from "../../types/Course";
-import { Lesson } from "../../types/Lesson";
-import { Module } from "../../types/Module";
+
+import type { Course } from "@react-redux/@types/Course";
+import type { Lesson } from "@react-redux/@types/Lesson";
+import type { Module } from "@react-redux/@types/Module";
 
 const initialState: Course = {
   activeModule: {
