@@ -5,4 +5,5 @@ export type Course = {
   activeModule: Module;
   activeLesson: Lesson;
   modules: Module[];
+  playedSeconds: number;
 };

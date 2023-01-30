@@ -61,7 +61,12 @@ export function Sidebar() {
                 _hover={{ bgColor: "#181818" }}
                 color="#fff"
                 onClick={() =>
-                  dispatch(courseActions.toggleLesson({ module, lesson }))
+                  dispatch(
+                    courseActions.toggleLesson({
+                      moduleId: module.id,
+                      lessonId: lesson.id,
+                    })
+                  )
                 }
                 p={4}
               >

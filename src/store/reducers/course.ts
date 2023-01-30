@@ -5,6 +5,7 @@ import type { Lesson } from "@react-redux/@types/Lesson";
 import type { Module } from "@react-redux/@types/Module";
 
 const initialState: Course = {
+  playedSeconds: 0,
   activeModule: {
     id: 2,
     title: "Starting with React",
@@ -255,8 +256,9 @@ const initialState: Course = {
 };
 
 type ToggleLessonPayload = {
-  module: Module;
-  lesson: Lesson;
+  moduleId: number;
+  lessonId: number;
+  playedSeconds?: number;
 };
 
 const courseSlice = createSlice({
@@ -264,10 +266,23 @@ const courseSlice = createSlice({
   initialState,
   reducers: {
     toggleLesson: (state, action: PayloadAction<ToggleLessonPayload>) => {
+      const newActiveModule = state.modules.find(
+        (module) => module.id === action.payload.moduleId
+      );
+      if (!newActiveModule) {
+        throw new Error("Could not find this module");
+      }
+      const newActiveLesson = newActiveModule?.lessons.find(
+        (lesson) => lesson.id === action.payload.lessonId
+      );
+      if (!newActiveLesson) {
+        throw new Error("Could not find this lesson");
+      }
       return {
         ...state,
-        activeModule: action.payload.module,
-        activeLesson: action.payload.lesson,
+        activeModule: newActiveModule,
+        activeLesson: newActiveLesson,
+        playedSeconds: action.payload.playedSeconds ?? 0,
       };
     },
     navigateToNextVideo: (
@@ -275,11 +290,11 @@ const courseSlice = createSlice({
       action: PayloadAction<ToggleLessonPayload>
     ) => {
       const activeModuleIndex = state.modules.findIndex(
-        (module) => module.id === action.payload.module.id
+        (module) => module.id === action.payload.moduleId
       );
       const activeLessonIndex = state.modules[
         activeModuleIndex
-      ].lessons.findIndex((lesson) => lesson.id === action.payload.lesson.id);
+      ].lessons.findIndex((lesson) => lesson.id === action.payload.lessonId);
 
       const activeModule =
         state.modules[activeModuleIndex].lessons.length > activeLessonIndex + 1
@@ -299,6 +314,7 @@ const courseSlice = createSlice({
         ...state,
         activeModule,
         activeLesson,
+        playedSeconds: 0,
       };
     },
   },

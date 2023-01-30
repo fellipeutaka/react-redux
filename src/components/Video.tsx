@@ -1,5 +1,5 @@
 import { AspectRatio, Box, Heading, Text } from "@chakra-ui/react";
-import { useMemo } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 const ReactPlayer = dynamic(() => import("react-player/youtube"), {
   ssr: false,
@@ -12,6 +12,7 @@ export function Video() {
     activeModule: state.courseReducer.activeModule,
     activeLesson: state.courseReducer.activeLesson,
     modules: state.courseReducer.modules,
+    playedSeconds: state.courseReducer.playedSeconds,
   }));
   const dispatch = useAppDispatch();
 
@@ -23,6 +24,32 @@ export function Video() {
     );
   }, [course.modules]);
 
+  const onProgress = useCallback(
+    (playedSeconds: number) => {
+      const data = {
+        playedSeconds,
+        activeModuleId: course.activeModule.id,
+        activeLessonId: course.activeLesson.id,
+      };
+      localStorage.setItem("@react-redux/data", JSON.stringify(data));
+    },
+    [course.activeLesson.id, course.activeModule.id]
+  );
+
+  useEffect(() => {
+    const localStorageData = localStorage.getItem("@react-redux/data");
+    if (localStorageData) {
+      const data = JSON.parse(localStorageData);
+      dispatch(
+        courseActions.toggleLesson({
+          moduleId: data?.activeModuleId,
+          lessonId: data?.activeLessonId,
+          playedSeconds: Math.floor(data?.playedSeconds || 0),
+        })
+      );
+    }
+  }, []);
+
   return (
     <Box w={["100%", "75%"]}>
       <AspectRatio ratio={16 / 9}>
@@ -31,17 +58,18 @@ export function Video() {
           height="100%"
           url={course.activeLesson.videoURL}
           controls
+          onProgress={(state) => onProgress(state.playedSeconds)}
           config={{
             playerVars: {
               autoplay: 1,
-              start: 0,
+              start: course.playedSeconds,
             },
           }}
           onEnded={() =>
             dispatch(
               courseActions.navigateToNextVideo({
-                module: course.activeModule,
-                lesson: course.activeLesson,
+                moduleId: course.activeModule.id,
+                lessonId: course.activeLesson.id,
               })
             )
           }
